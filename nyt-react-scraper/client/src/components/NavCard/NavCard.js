@@ -6,24 +6,34 @@ import {cardstyles, textboxstyles} from "./NavCardStyle";
 
 const { RangePicker } = DatePicker;
 
-function onChange(date, dateString) {
-  console.log(date, dateString);
-}
-
-
 // const styles = {
 //   marginBottom: "2%"}; 
   // could import this from own file
-const NavCard = () => (
+const NavCard = props => (
 
   <Card
     title="NYT Article Scrubber"
     // extra={<a href="#">More</a>}
     style={cardstyles}
   >
-    <Input style={textboxstyles} placeholder="Topic" />
-    <RangePicker style={textboxstyles} onChange={onChange} />
-    {/* <Button type="primary" className="searchButton" onClick={() => this.handleClick()}>Search</Button> */}
+    <Input 
+      style={textboxstyles} 
+      placeholder="Topic" 
+      className="topicBox" 
+      name="topicBox"
+      value={props.value}
+      onChange={props.handleChange}
+      />
+    <RangePicker 
+      style={textboxstyles} 
+      onChange={props.handleDateChange} 
+      className="rangePickerBox" 
+      />
+    <Button 
+      type="primary" 
+      className="searchButton" 
+      onClick={() => props.handleClick()}>Search</Button>
+    {props.children}   
   </Card>
 );
 

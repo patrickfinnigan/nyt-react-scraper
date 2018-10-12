@@ -1,14 +1,14 @@
 import React from "react";
 import { Card } from "antd";
-import {cardstyles} from "./ResultsStyle";
+import { cardstyles } from "./ResultsStyle";
 
-const Results = () => (
+const Results = props => (
   <Card
-    title="Results"
+    title="A Story"
     // extra={<a href="#">More</a>}
     style={cardstyles}
   >
-  
+    {props.story}
   </Card>
 );
 
