@@ -32,7 +32,7 @@ class App {
     initDb() {
         try {
             this.db = mongoose.connect(
-                process.env.MONGODB_URI || 'your_local_mongo_uri_here', 
+                process.env.MONGODB_URI || 'mongodb://localhost/nytscraper',
                 { useNewUrlParser: true } // Helps us avoid deprecation errors.
             );
             console.log('Successfully connected to database.')
@@ -46,17 +46,17 @@ class App {
         app.use(express.static(path.resolve(__dirname, '..', '..', 'public'))) // Serve files in our Rect app public directory
         router(app);
 
-        if (process.env.NODE_ENV === 'production') 
+        if (process.env.NODE_ENV === 'production')
             app.use(express.static('client/build'));
-        if (process.env.NODE_ENV === 'test') 
+        if (process.env.NODE_ENV === 'test')
             app.use(morgan(() => null));
-        else 
-            app.use(morgan('API Request (port ' + this.port + '): :method :url :status :response-time ms - :res[content-length]'));   
+        else
+            app.use(morgan('API Request (port ' + this.port + '): :method :url :status :response-time ms - :res[content-length]'));
     }
     run() {
         this.server.listen(this.port, () => {
             console.log(`Server listening on port ${this.port}`)
-        })        
+        })
     }
 }
 
