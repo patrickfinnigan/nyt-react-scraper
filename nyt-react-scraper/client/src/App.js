@@ -4,8 +4,7 @@ import "./App.css";
 import "antd/dist/antd.css";
 import { Layout } from "antd";
 import ResultsCard from "./components/ResultsCard/ResultsCard";
-import Results from "./components/ResultsCard/Results/Results";
-import { start } from "repl";
+import { NYT_API_KEY } from './config/keys';
 
 class App extends Component {
   state = {
@@ -25,31 +24,30 @@ class App extends Component {
   handleClick = () => {
     console.log("Clicked topic: ", this.state);
     const {topicBox, startDate, endDate} = this.state;
-    const URL = `https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=${}&q=${topicBox}&begin_date=${startDate}&end_date=${endDate}`;
-    fetch(URL).then(res => res.json()).then(data => this.setState({data}))
+    const URL = `https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=${NYT_API_KEY}&q=${topicBox}&begin_date=${startDate}&end_date=${endDate}`;
+    fetch(URL).then(res => res.json()).then(data => this.setState({
+      data: data.response.docs
+    }));
   }
 
   handleDateChange = (date) => {
-    console.log(date)
     this.setState({
-      startDate: date[0].toDate().format('YYYYMMDD'),
-      endDate: date[1].toDate().format('YYYYMMDD'),
+      startDate: date[0].format('YYYYMMDD'),
+      endDate: date[1].format('YYYYMMDD'),
     })
   }
 
   render() {
     return (
       <Layout>
-        <NavCard 
-          handleChange={this.handleChange} 
+        <NavCard
+          handleChange={this.handleChange}
           handleClick={this.handleClick}
           value={this.state.topicBox}
-          handleDateChange={this.handleDateChange} 
+          handleDateChange={this.handleDateChange}
           />
         <br />
-        <ResultsCard data={data}>
-          <Results />
-        </ResultsCard>
+        {this.state.data ? <ResultsCard data={this.state.data} /> : ''}
         <br />
       </Layout>
     );
