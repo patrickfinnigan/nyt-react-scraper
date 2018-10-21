@@ -1,17 +1,27 @@
 import React from "react";
-import { Card } from "antd";
-import { cardstyles } from "./Storystyle";
+import { Card, Button } from "antd";
+import { cardstyles, buttonstyles, textstyles } from "./Storystyle";
 
 const Story = props => (
-  <a href={props.url} target="_blank" rel="noopener noreferrer">
     <Card
       title={props.title}
-      // extra={<a href="#">More</a>}
+      extra={<a href={props.url}>Link</a>}
       style={cardstyles}
     >
+      <div
+      style={textstyles}
+      >
       {props.snippet}
+      </div>
+    <Button 
+      type="primary" 
+      className="saveButton" 
+      style={buttonstyles}
+      onClick={() => props.handleSave(props.id)}
+      >
+      Save
+      </Button>
     </Card>
-  </a>
 );
 
 export default Story;

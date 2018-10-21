@@ -1,16 +1,19 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const searchEntry = new Schema({
-  search: [
-    {
-      topic: String,
-      startDate: String,
-      endDate: String
-    }
-  ]
-}, {
-    collection: 'search'
-});
+const searchEntry = new Schema(
+  {
+    _id: Schema.Types.ObjectId,
+    web_url: String,
+    title: String,
+    snippet: String
+  },
+  {
+    collection: "search"
+  }
+);
 
-// Define your schemas here!
+
+const search = mongoose.model("Search", searchEntry);
+
+module.exports = search;

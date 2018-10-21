@@ -32,7 +32,11 @@ const NavCard = props => (
     <Button 
       type="primary" 
       className="searchButton" 
-      onClick={() => props.handleClick()}>Search</Button>
+      onClick={() => props.handleClick()}
+      disabled={!props.value || !props.startDate || !props.endDate}
+      >
+      Search
+      </Button>
     {props.children}   
   </Card>
 );

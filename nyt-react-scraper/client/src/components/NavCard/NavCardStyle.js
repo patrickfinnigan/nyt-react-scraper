@@ -4,6 +4,8 @@ export const cardstyles = {
 }
 
 export const textboxstyles = {
+    margin: "auto",
+    float: "none",
     marginBottom: "2%",
     width: "95%"
 }
