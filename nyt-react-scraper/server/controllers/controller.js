@@ -18,5 +18,19 @@ module.exports = {
       .create(article)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
+  },
+
+  get_all: function( req, res) {
+    db.search
+      .find({}, function (err, articles) {
+        res.send(articles)
+      })
+  },
+
+  delete: function (req, res) {
+    db.search.findByIdAndRemove(req.params.id, function (req, resp) {
+      console.log("Deleted")
+      res.status(200).send("Success!")
+    })
   }
 };

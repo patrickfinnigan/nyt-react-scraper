@@ -15,6 +15,24 @@ class App extends Component {
     savedData: []
   };
 
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    fetch("/get_all", {
+      method: "GET",
+      headers: { "Content-Type": "application/json; charset=utf-8" }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        this.setState({
+          savedData: data
+        });
+      });
+  };
+
   handleChange = event => {
     console.log(event);
     this.setState({
@@ -42,8 +60,20 @@ class App extends Component {
       });
   };
 
+  handleDelete = event => {
+    console.log("delete?", event);
+    fetch("/delete/" + event, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json; charset=utf-8" }
+    })
+    .then(data => {
+      // console.log(data);
+      this.getData();
+    });
+  };
+
   handleClick = () => {
-    console.log("Clicked topic: ", this.state);
+    // console.log("Clicked topic: ", this.state);
     const { topicBox, startDate, endDate } = this.state;
     const URL = `https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=${NYT_API_KEY}&q=${topicBox}&begin_date=${startDate}&end_date=${endDate}`;
     fetch(URL)
@@ -63,7 +93,7 @@ class App extends Component {
   };
 
   render() {
-    console.log('data', this.state.data, 'savedData', this.state.savedData);
+    console.log("data", this.state.data, "savedData", this.state.savedData);
     return (
       <Layout>
         <NavCard
@@ -76,14 +106,22 @@ class App extends Component {
         />
         <br />
         {this.state.data ? (
-          <ResultsCard data={this.state.data} handleSave={this.handleSave} />
+          <ResultsCard
+            data={this.state.data}
+            handleSave={this.handleSave}
+            handleDelete={null}
+          />
         ) : (
           ""
         )}
         <br />
         <h1>Saved Articles</h1>
         {this.state.savedData ? (
-          <ResultsCard data={this.state.savedData} handleSave={null} />
+          <ResultsCard
+            data={this.state.savedData}
+            handleDelete={this.handleDelete}
+            handleSave={null}
+          />
         ) : (
           ""
         )}
